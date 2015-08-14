@@ -23,6 +23,7 @@
 				bottom = parseFloat(attrs[namespace + 'Bottom']),
 				media = window.matchMedia(attrs[namespace + 'Media'] || 'all'),
 				top = parseFloat(attrs[namespace + 'Top']),
+				stickyClass = attrs[namespace + 'Class'],
 
 				// initialize states
 				activeBottom = false,
@@ -49,10 +50,18 @@
 					}
 
 					// style wrapper
-					wrapper.setAttribute('style', 'display:' + computedStyle.display + ';height:' + element.offsetHeight + 'px;margin:' + computedStyle.margin + ';width:' + element.offsetWidth + 'px');
+					wrapper.setAttribute(
+						'style',
+						'display:' + computedStyle.display + ';' +
+						'height:' + element.offsetHeight + 'px;' +
+						'margin:' + computedStyle.margin + ';' +
+						'width:' + element.offsetWidth + 'px;' +
+						'clear:' + computedStyle.clear + ';'
+					);
 
 					// style element
 					element.setAttribute('style', 'left:' + offset.left + 'px;margin:0;position:fixed;transition:none;' + position + 'px;width:' + computedStyle.width);
+					element.classList.add(stickyClass);
 				}
 
 				// deactivate sticky
@@ -72,6 +81,8 @@
 					} else {
 						element.setAttribute('style', style);
 					}
+
+					element.classList.remove(stickyClass);
 
 					// unstyle wrapper
 					wrapper.removeAttribute('style');
